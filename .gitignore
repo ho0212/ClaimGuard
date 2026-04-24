@@ -210,3 +210,6 @@ __marimo__/
 images/
 .jpg
 .png
+
+# Interal Test Folder
+/tests
