@@ -3,8 +3,17 @@ import shutil
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import JSONResponse
 from src.agent.agent_workflow import app as langgraph_agent
+from fastapi.middleware.cors import CORSMiddleware
 
 api = FastAPI(title="ClaimGuard AI API", description="Insurance Claims Automated Review System")
+
+api.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["*"], 
+    allow_headers=["*"], 
+)
 
 @api.post("/api/evaluate-claim")
 async def evaluate_claim(receipt_image: UploadFile = File(...)):
