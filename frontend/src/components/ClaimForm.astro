@@ -1,0 +1,200 @@
+<div class="claim-container">
+  <h2>Upload Medical Receipt</h2>
+  
+  <form id="upload-form" class="upload-form">
+    <div class="file-input-wrapper">
+      <input type="file" id="receipt-image" name="receipt_image" accept="image/*" required />
+    </div>
+    <button type="submit" id="submit-btn" class="submit-btn">
+      Start AI review
+    </button>
+  </form>
+
+  <div id="loading-indicator" class="hidden">
+    <p>AI is currently comparing the insurance terms online, please wait....</p>
+    <div class="spinner"></div>
+  </div>
+
+  <div id="result-container" class="result-container hidden">
+    <h3>Claims Analysis Report</h3>
+    <div class="result-grid">
+      <div class="result-item">
+        <span class="label">Date of Treatment:</span>
+        <span id="res-date" class="value"></span>
+      </div>
+      <div class="result-item">
+        <span class="label">Diagnosis:</span>
+        <span id="res-diagnosis" class="value"></span>
+      </div>
+      <div class="result-item">
+        <span class="label">Declared Amount:</span>
+        <span id="res-cost" class="value"></span>
+      </div>
+    </div>
+    
+    <div class="decision-box">
+      <h4>Final Decision</h4>
+      <p id="res-decision" class="decision-text"></p>
+    </div>
+    
+    <div class="policy-box">
+      <h4>Trigger Clause</h4>
+      <pre id="res-policy" class="policy-text"></pre>
+    </div>
+  </div>
+</div>
+
+<script>
+  // (Client-side JavaScript)
+  const form = document.getElementById('upload-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const loadingIndicator = document.getElementById('loading-indicator');
+  const resultContainer = document.getElementById('result-container');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); // Prevent form from refreshing
+    
+    const fileInput = document.getElementById('receipt-image');
+    if (!fileInput.files.length) {
+      alert('Please select a receipt!');
+      return;
+    }
+
+    // Prepare data format (FormData is used for sending files)
+    const formData = new FormData();
+    formData.append('receipt_image', fileInput.files[0]);
+
+    // Change UI state: Showing loading, hide the result, disable button
+    submitBtn.disabled = true;
+    loadingIndicator.classList.remove('hidden');
+    resultContainer.classList.add('hidden');
+
+    try {
+      // Call FastAPI backend
+      const response = await fetch('http://127.0.0.1:8000/api/evaluate-claim', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.status === 'success') {
+        // Read data from JSON to containers
+        document.getElementById('res-date').textContent = data.extracted_data?.date || 'N/A';
+        document.getElementById('res-diagnosis').textContent = data.extracted_data?.diagnosis || 'N/A';
+        document.getElementById('res-cost').textContent = `$${data.extracted_data?.cost || 'N/A'}`;
+        document.getElementById('res-policy').textContent = data.policy_matched || '未找到相關條款';
+        document.getElementById('res-decision').textContent = data.decision_report || '無結論';
+        
+        // Result
+        resultContainer.classList.remove('hidden');
+      } else {
+        alert('Error occurs at the backend：' + (data.message || 'Unknown Error'));
+      }
+    } catch (error) {
+      console.error('API Calling Failed:', error);
+      alert('Cannot connect to backend server. Please confirm FastAPI has running!');
+    } finally {
+      // Restore UI state
+      submitBtn.disabled = false;
+      loadingIndicator.classList.add('hidden');
+    }
+  });
+</script>
+
+<style>
+  .claim-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: system-ui, sans-serif;
+    background: #f9f9fb;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  }
+
+  .upload-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .file-input-wrapper {
+    padding: 1rem;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    text-align: center;
+    background: white;
+  }
+
+  .submit-btn {
+    padding: 1rem;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .submit-btn:hover { background: #1d4ed8; }
+  .submit-btn:disabled { background: #93c5fd; cursor: not-allowed; }
+
+  .hidden { display: none !important; }
+
+  .result-container {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+  }
+
+  .result-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .result-item {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    background: #f3f4f6;
+    border-radius: 6px;
+  }
+
+  .label { font-size: 0.8rem; color: #6b7280; text-transform: uppercase; }
+  .value { font-size: 1.1rem; font-weight: bold; color: #111827; }
+
+  .decision-box {
+    padding: 1rem;
+    background: #eff6ff;
+    border-left: 4px solid #3b82f6;
+    margin-bottom: 1rem;
+  }
+
+  .policy-box pre {
+    background: #1f2937;
+    color: #e5e7eb;
+    padding: 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    white-space: pre-wrap;
+  }
+
+  /* Loading animation */
+  .spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: #2563eb;
+    animation: spin 1s linear infinite;
+    margin: 1rem auto;
+  }
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>
