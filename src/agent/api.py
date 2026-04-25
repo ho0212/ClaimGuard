@@ -2,9 +2,7 @@ import os
 import shutil
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import JSONResponse
-
-# import agent app from testing folder
-from tests.agent_workflow import app as langgraph_agent
+from src.agent.agent_workflow import app as langgraph_agent
 
 api = FastAPI(title="ClaimGuard AI API", description="Insurance Claims Automated Review System")
 

@@ -208,8 +208,10 @@ __marimo__/
 
 # Images
 images/
+tmp_uploads/
 .jpg
 .png
 
 # Interal Test Folder
 /tests
+
