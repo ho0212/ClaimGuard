@@ -3,7 +3,7 @@
   
   <form id="upload-form" class="upload-form">
     <div class="file-input-wrapper">
-      <input type="file" id="receipt-image" name="receipt_image" accept="image/*" required />
+      <input type="file" id="receipt-image" name="receipt_image" accept="image/*" multiple required />
     </div>
     <button type="submit" id="submit-btn" class="submit-btn">
       Start AI review
@@ -62,7 +62,9 @@
 
     // Prepare data format (FormData is used for sending files)
     const formData = new FormData();
-    formData.append('receipt_image', fileInput.files[0]);
+    for (let i = 0; i < fileInput.files.length; i++) {
+      formData.append('receipt_files', fileInput.files[i]);
+    }
 
     // Change UI state: Showing loading, hide the result, disable button
     submitBtn.disabled = true;
@@ -80,16 +82,16 @@
 
       if (data.status === 'success') {
         // Read data from JSON to containers
-        document.getElementById('res-date').textContent = data.extracted_data?.date || 'N/A';
-        document.getElementById('res-diagnosis').textContent = data.extracted_data?.diagnosis || 'N/A';
-        document.getElementById('res-cost').textContent = `$${data.extracted_data?.cost || 'N/A'}`;
-        document.getElementById('res-policy').textContent = data.policy_matched || '未找到相關條款';
-        document.getElementById('res-decision').textContent = data.decision_report || '無結論';
-        
+        document.getElementById('res-date').textContent = "Multiple Dates"; // Placeholder since we don't have date in response
+        document.getElementById('res-diagnosis').textContent = data.final_diagnosis || 'N/A';
+        document.getElementById('res-cost').textContent = `$${data.aggregated_cost || 'N/A'}`;
+        document.getElementById('res-policy').textContent = data.policy_matched || 'Relevant policy clause not found.';
+        document.getElementById('res-decision').textContent = data.decision_report || 'No decision generated.';
+
         // Result
         resultContainer.classList.remove('hidden');
       } else {
-        alert('Error occurs at the backend：' + (data.message || 'Unknown Error'));
+        alert('Error occurs at the backend:' + (data.message || 'Unknown Error'));
       }
     } catch (error) {
       console.error('API Calling Failed:', error);

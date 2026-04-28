@@ -1,5 +1,6 @@
 import os
 import shutil
+from typing import List, Annotated
 from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import JSONResponse
 from src.agent.agent_workflow import app as langgraph_agent
@@ -16,35 +17,48 @@ api.add_middleware(
 )
 
 @api.post("/api/evaluate-claim")
-async def evaluate_claim(receipt_image: UploadFile = File(...)):
+async def evaluate_claim(receipt_files: Annotated[List[UploadFile], File(description="Upload receipt files for claim evaluation")]):
     """
     This function firstly receives files uploaded from frontend, then parses data to LangGraph for analysis.
     Finally, it returns LLM claim report.
     """
     try:
-        print(f"Received files from frontend: {receipt_image.filename}")
+        print(f"Received {len(receipt_files)} files from frontend.")
 
         # Create temporary folder for uploaded files
         os.makedirs("tmp_uploads", exist_ok=True)
-        tmp_file_path = f"tmp_uploads/{receipt_image.filename}"
-        with open(tmp_file_path, "wb") as buffer:
-            shutil.copyfileobj(receipt_image.file, buffer)
-        
-        # Add files to AgentState
-        initial_state = {"image_path": tmp_file_path}
+        tmp_file_paths = []
 
-        print("Agent WorkFlow Starts")
+        for file in receipt_files:
+            tmp_file_path = os.path.join("tmp_uploads", file.filename)
+            with open(tmp_file_path, "wb") as buffer:
+                shutil.copyfileobj(file.file, buffer)
+            tmp_file_paths.append(tmp_file_path)
+        
+        initial_state = {"files": tmp_file_paths}
+
+        print("Passing files to LangGraph agent for analysis...")
         final_state = langgraph_agent.invoke(initial_state)
 
-        # Clear uploaded files
-        os.remove(tmp_file_path)
+        # Clean up temporary files
+        for path in tmp_file_paths:
+            os.remove(path)
+        
+        # === Test Section ===
+        print("LLM Decision Report:", final_state.get("final_decision"))
+
+        # === End of Test Section ===
 
         return JSONResponse(content={
             "status": "success",
-            "extracted_data": final_state.get("extracted_data"),
+            "extracted_items": final_state.get("extracted_items"),
+            "aggregated_cost": final_state.get("aggregated_cost"),
+            "final_diagnosis": final_state.get("final_diagnosis"),
             "policy_matched": final_state.get("policy_text"),
             "decision_report": final_state.get("final_decision")
         })
+
+
     except Exception as e:
         return JSONResponse(status_code=500, content={
             "status": "error",
