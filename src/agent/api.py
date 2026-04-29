@@ -1,7 +1,7 @@
 import os
 import shutil
 from typing import List, Annotated
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.responses import JSONResponse
 from src.agent.agent_workflow import app as langgraph_agent
 from fastapi.middleware.cors import CORSMiddleware
@@ -17,7 +17,11 @@ api.add_middleware(
 )
 
 @api.post("/api/evaluate-claim")
-async def evaluate_claim(receipt_files: Annotated[List[UploadFile], File(description="Upload receipt files for claim evaluation")]):
+async def evaluate_claim(
+    receipt_files: Annotated[List[UploadFile], File(description="Upload receipt files for claim evaluation")],
+    company: Annotated[str, Form(description="Insurance Company")],
+    plan: Annotated[str, Form(description="Insurance Plan")]
+):
     """
     This function firstly receives files uploaded from frontend, then parses data to LangGraph for analysis.
     Finally, it returns LLM claim report.
@@ -28,14 +32,14 @@ async def evaluate_claim(receipt_files: Annotated[List[UploadFile], File(descrip
         # Create temporary folder for uploaded files
         os.makedirs("tmp_uploads", exist_ok=True)
         tmp_file_paths = []
-
+    
         for file in receipt_files:
             tmp_file_path = os.path.join("tmp_uploads", file.filename)
             with open(tmp_file_path, "wb") as buffer:
                 shutil.copyfileobj(file.file, buffer)
             tmp_file_paths.append(tmp_file_path)
         
-        initial_state = {"files": tmp_file_paths}
+        initial_state = {"files": tmp_file_paths, "company": company, "plan": plan}
 
         print("Passing files to LangGraph agent for analysis...")
         final_state = langgraph_agent.invoke(initial_state)

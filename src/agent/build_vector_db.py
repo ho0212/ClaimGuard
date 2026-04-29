@@ -82,15 +82,15 @@ def process_and_upload_policy(pdf_path: str, company: str, plan: str):
     chunks = text_splitter.split_documents(documents)
     print(f"Split into {len(chunks)} chunks.")
 
-    # === Debug: Print the content of the first few chunks to verify splitting ===
-    for i, chunk in enumerate(chunks):
-        if "appendix" in chunk.page_content.lower():
-            print(f"Found 'appendix' in chunk {i}.")
-            print("=" * 50)
-            print(chunk.page_content)
-            print("=" * 50)
-            break
-    # === End Debug ===
+    # # === Debug: Print the content of the first few chunks to verify splitting ===
+    # for i, chunk in enumerate(chunks):
+    #     if "appendix" in chunk.page_content.lower():
+    #         print(f"Found 'appendix' in chunk {i}.")
+    #         print("=" * 50)
+    #         print(chunk.page_content)
+    #         print("=" * 50)
+    #         break
+    # # === End Debug ===
 
     # Add metadata tag
     for chunk in chunks:
@@ -112,7 +112,7 @@ if __name__ == "__main__":
     
     target_pdf_path = "policies/Allianz/Allianz_OVHC.pdf"
     company = "Allianz"
-    plan = "OVHC"
+    plan = "OVHC_visitor"
 
 
     if os.path.exists(target_pdf_path):

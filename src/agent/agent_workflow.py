@@ -48,6 +48,8 @@ def encode_image(image_path):
 # === Define State ===
 class AgentState(TypedDict):
     files: List[str]            # List of file paths for uploaded images
+    company: str              # Insurance company name
+    plan: str                 # Insurance plan name
     extracted_items: List[dict] # JSON data extracted from each files
     final_diagnosis: str        # Final diagnosis extracted from the receipt
     aggregated_cost: float      # Aggregated cost from all receipts
@@ -133,10 +135,14 @@ def node_retrieve_policy(state: AgentState):
     diagnosis = state["final_diagnosis"]
 
     # === Hardcoded parameters for now ===
-    target_company = "Allianz"
-    target_plan = "OVHC"
-    print(f"Filtering for company: {target_company} and plan: {target_plan}")
+    # target_company = "Allianz"
+    # target_plan = "OVHC"
+    # print(f"Filtering for company: {target_company} and plan: {target_plan}")
     # === ===
+
+    target_company = state["company"]
+    target_plan = state["plan"]
+    print(f"Filtering for company: {target_company} and plan: {target_plan}")
 
     qdrant_filter = Filter(
         must=[
