@@ -110,9 +110,9 @@ def process_and_upload_policy(pdf_path: str, company: str, plan: str):
 if __name__ == "__main__":
     setup_collection()
     
-    target_pdf_path = "policies/Allianz/Allianz_OVHC.pdf"
+    target_pdf_path = "policies/Allianz/Allianz_OWHC.pdf"
     company = "Allianz"
-    plan = "OVHC_visitor"
+    plan = "OVHC_work"
 
 
     if os.path.exists(target_pdf_path):
