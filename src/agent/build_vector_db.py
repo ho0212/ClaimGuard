@@ -22,7 +22,7 @@ qdrant_client = QdrantClient(
     url=os.getenv("QDRANT_URL"),
     api_key=os.getenv("QDRANT_API_KEY")
 )
-COLLECTION_NAME = "insurance_policies"
+COLLECTION_NAME = "health_insurance_policies"
 
 
 def setup_collection():
@@ -35,6 +35,21 @@ def setup_collection():
         )
     else:
         print(f"Collection '{COLLECTION_NAME}' already exists.")
+    
+    try:
+        qdrant_client.create_payload_index(
+            collection_name=COLLECTION_NAME,
+            field_name="metadata.company",
+            field_schema="keyword"
+        )
+        qdrant_client.create_payload_index(
+            collection_name=COLLECTION_NAME,
+            field_name="metadata.plan",
+            field_schema="keyword"
+        )
+        print("Created payload indexes.")
+    except Exception as e:
+        pass
 
 def get_dynamic_splitter(target_chunk_size=500, overlap_ratio=0.15):
     """
@@ -96,7 +111,11 @@ if __name__ == "__main__":
     setup_collection()
     
     target_pdf_path = "policies/Allianz/Allianz_OVHC.pdf"
+    company = "Allianz"
+    plan = "OVHC"
+
+
     if os.path.exists(target_pdf_path):
-        process_and_upload_policy(target_pdf_path, company="Allianz", plan="OVHC")
+        process_and_upload_policy(target_pdf_path, company=company, plan=plan)
     else:
         print(f"PDF file not found at path: {target_pdf_path}. Please check the file path and try again.")

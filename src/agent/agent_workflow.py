@@ -8,6 +8,7 @@ from langchain_openai import AzureOpenAIEmbeddings
 from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
 from langgraph.graph import StateGraph, START, END
+from qdrant_client.http.models import Filter, FieldCondition, MatchValue
 
 load_dotenv()
 
@@ -30,7 +31,7 @@ qdrant_client = QdrantClient(
     url=os.getenv("QDRANT_URL"),
     api_key=os.getenv("QDRANT_API_KEY")
 )
-COLLECTION_NAME = "insurance_policies"
+COLLECTION_NAME = "health_insurance_policies"
 
 # Define JSON format from VLM
 class DocumentData(BaseModel):
@@ -131,6 +132,25 @@ def node_retrieve_policy(state: AgentState):
     print("Retrieving relevant policy clauses...")
     diagnosis = state["final_diagnosis"]
 
+    # === Hardcoded parameters for now ===
+    target_company = "Allianz"
+    target_plan = "OVHC"
+    print(f"Filtering for company: {target_company} and plan: {target_plan}")
+    # === ===
+
+    qdrant_filter = Filter(
+        must=[
+            FieldCondition(
+                key="metadata.company",
+                match=MatchValue(value=target_company)
+            ),
+            FieldCondition(
+                key="metadata.plan",
+                match=MatchValue(value=target_plan)
+            )
+        ]
+    )
+
     # Initialise vector database
     vector_store = QdrantVectorStore(
         client=qdrant_client,
@@ -138,10 +158,10 @@ def node_retrieve_policy(state: AgentState):
         collection_name=COLLECTION_NAME
     )
 
-    results = vector_store.similarity_search_with_score(diagnosis, k=3)
+    results = vector_store.similarity_search_with_score(diagnosis, k=3, filter=qdrant_filter)
 
     # filter irrelevant info
-    SCORE_THRESHOLD = 0.3
+    SCORE_THRESHOLD = 0.2
     filtered_results = [(doc, score) for doc, score in results if score >= SCORE_THRESHOLD]
 
     if filtered_results:
@@ -151,7 +171,7 @@ def node_retrieve_policy(state: AgentState):
         matched_text = "No relevant policy found."
         matched_score = []
     
-    print(f"Relevant Policy Found: \n{matched_text}")
+    # print(f"Relevant Policy Found: \n{matched_text}")
     print(f"Corresponding Score: {matched_score}")
 
     return {"policy_text": matched_text}
