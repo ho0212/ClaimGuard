@@ -1,8 +1,8 @@
 import os
 from dotenv import load_dotenv
-from langchain_openai import AzureOpenAIEmbeddings
-from langchain_core.documents import Document
+from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from langchain_openai import AzureOpenAIEmbeddings
 from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import Distance, VectorParams
@@ -18,66 +18,85 @@ embeddings_model = AzureOpenAIEmbeddings(
 )
 
 # Initialise Qdrant client
-client = QdrantClient(
+qdrant_client = QdrantClient(
     url=os.getenv("QDRANT_URL"),
     api_key=os.getenv("QDRANT_API_KEY")
 )
 COLLECTION_NAME = "insurance_policies"
 
-insurance_text = """
-[ClaimGuard Health Insurance - Policy Document 2026]
 
-Section 1: Outpatient Services
-Clause 1.1 - General Practitioner (GP) Visits: Covered up to $150 per visit, maximum 10 visits per year.
-Clause 1.2 - Specialist Consultations: Covered up to $300 per visit, requires GP referral.
-Clause 1.3 - Acute Infections: For treatments of acute respiratory or throat infections (including prescriptions and consultations), the maximum coverage is $1,500 per incident.
-
-Section 2: Diagnostic Tests
-Clause 2.1 - Blood Tests: Fully covered if prescribed by a network doctor.
-Clause 2.2 - Medical Imaging: X-rays, Ultrasounds, and MRI scans are covered up to $2,000 per year. MRI requires prior authorization.
-
-Section 3: Inpatient & Surgery
-Clause 3.1 - Hospital Room: Standard private room is fully covered for a maximum of 30 days per year.
-Clause 3.2 - Surgeries: Major surgeries are covered up to $50,000. Cosmetic or elective surgeries are strictly excluded.
-
-Section 4: Physiotherapy & Rehabilitation
-Clause 4.1 - Physical Therapy: Covered up to $100 per session, maximum 20 sessions per year. Must be related to a covered accident or surgery.
-
-Section 5: Exclusions
-Clause 5.1 - Routine Full Body Check Ups: Health screenings and routine check-ups are not covered under this reimbursement policy.
-Clause 5.2 - Dental Care: Dental scaling, whitening, and cosmetic procedures are excluded.
-"""
-
-# Text Splitter
-text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=300,
-    chunk_overlap=50,
-    separators=["\n\n", "\n", ".", " "]
-)
-texts = text_splitter.split_text(insurance_text)
-docs = [Document(page_content=t) for t in texts]
-
-def build_cloud_db():
-    print("Connecting to Qdrant Cloud...")
-
-    if not client.collection_exists(COLLECTION_NAME):
-        client.create_collection(
+def setup_collection():
+    # Check if collection exists, if not create it
+    if not qdrant_client.collection_exists(COLLECTION_NAME):
+        print(f"Creating New Qdrant Collection: {COLLECTION_NAME}")
+        qdrant_client.create_collection(
             collection_name=COLLECTION_NAME,
             vectors_config=VectorParams(size=1536, distance=Distance.COSINE)
         )
-        print(f"Created a new cloud space: {COLLECTION_NAME}")
-    
-    print(f"Ready to convert {len(docs)} policy chunks to vectors and upload...")
+    else:
+        print(f"Collection '{COLLECTION_NAME}' already exists.")
 
+def get_dynamic_splitter(target_chunk_size=500, overlap_ratio=0.15):
+    """
+    This function returns a RecursiveCharacterTextSplitter with dynamic chunk size 
+    and overlap based on the target chunk size and overlap ratio.
+    """
+    dynamic_overlap = int(target_chunk_size * overlap_ratio)
+    print(f"Using dynamic chunk size: {target_chunk_size} and overlap: {dynamic_overlap}")
+
+    return RecursiveCharacterTextSplitter.from_tiktoken_encoder(
+        encoding_name="cl100k_base",
+        chunk_size=target_chunk_size,
+        chunk_overlap=dynamic_overlap
+    )
+
+def process_and_upload_policy(pdf_path: str, company: str, plan: str):
+    """
+    This function processes a PDF insurance policy, extracts text, generates embeddings, and uploads to Qdrant.
+    """
+
+    print(f"Processing PDF: {pdf_path}")
+
+    # Load PDF
+    loader = PyPDFLoader(pdf_path)
+    documents = loader.load()
+    print(f"Extracted {len(documents)} pages from the PDF.")
+
+    # Split text into chunks
+    text_splitter = get_dynamic_splitter(target_chunk_size=500, overlap_ratio=0.15)
+    chunks = text_splitter.split_documents(documents)
+    print(f"Split into {len(chunks)} chunks.")
+
+    # === Debug: Print the content of the first few chunks to verify splitting ===
+    for i, chunk in enumerate(chunks):
+        if "appendix" in chunk.page_content.lower():
+            print(f"Found 'appendix' in chunk {i}.")
+            print("=" * 50)
+            print(chunk.page_content)
+            print("=" * 50)
+            break
+    # === End Debug ===
+
+    # Add metadata tag
+    for chunk in chunks:
+        chunk.metadata["company"] = company
+        chunk.metadata["plan"] = plan
+    
+    print("Generating embeddings and uploading to Qdrant... (it might take a while for large documents)")
     QdrantVectorStore.from_documents(
-        docs,
+        chunks,
         embeddings_model,
         url=os.getenv("QDRANT_URL"),
         api_key=os.getenv("QDRANT_API_KEY"),
-        collection_name=COLLECTION_NAME
+        collection_name=COLLECTION_NAME,
     )
-
-    print("Task completed! Insurance policy knowledge base has been deployed to the Cloud.")
+    print("Upload complete.")
 
 if __name__ == "__main__":
-    build_cloud_db()
+    setup_collection()
+    
+    target_pdf_path = "policies/Allianz/Allianz_OVHC.pdf"
+    if os.path.exists(target_pdf_path):
+        process_and_upload_policy(target_pdf_path, company="Allianz", plan="OVHC")
+    else:
+        print(f"PDF file not found at path: {target_pdf_path}. Please check the file path and try again.")
