@@ -44,10 +44,6 @@ async def evaluate_claim(receipt_files: Annotated[List[UploadFile], File(descrip
         for path in tmp_file_paths:
             os.remove(path)
         
-        # === Test Section ===
-        print("LLM Decision Report:", final_state.get("final_decision"))
-
-        # === End of Test Section ===
 
         return JSONResponse(content={
             "status": "success",
