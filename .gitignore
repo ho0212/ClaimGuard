@@ -215,3 +215,6 @@ tmp_uploads/
 # Interal Test Folder
 /tests
 
+# Insurance Policies
+/policies
+
