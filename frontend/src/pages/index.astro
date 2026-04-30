@@ -129,41 +129,46 @@
 <main>
 <!-- Hero Section -->
 <section class="relative py-24 overflow-hidden bg-white">
-<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-<div class="z-10">
-<span class="inline-block px-3 py-1 mb-6 rounded-full bg-secondary-container text-primary font-label-sm">AI-POWERED PRECISION</span>
-<h1 class="font-h1 text-5xl md:text-6xl text-on-surface mb-6 leading-tight">
-                        Fast, Fair, and <span class="text-primary">Intelligent</span> Insurance Claims
-                    </h1>
-<p class="font-body-lg text-on-surface-variant mb-10 max-w-xl">
-                        ClaimGuard uses advanced medical AI to analyze receipts and policy data instantly. Reduce processing time by 80% with clinician-grade accuracy.
-                    </p>
-<div class="flex flex-col sm:flex-row gap-4">
-<button onclick="window.location.href='/claim'" class="bg-primary text-white font-label-md px-8 py-4 rounded-xl shadow-lg hover:shadow-primary-container/20 transition-all">
-                            Start Your Claim
-                        </button>
-<button class="flex items-center justify-center gap-2 border border-outline-variant text-on-surface font-label-md px-8 py-4 rounded-xl hover:bg-surface-container transition-colors">
-<span class="material-symbols-outlined">play_circle</span>
-                            How it works
-                        </button>
-</div>
-</div>
-<div class="relative">
-<div class="absolute -top-12 -right-12 w-64 h-64 bg-primary-container/5 rounded-full blur-3xl"></div>
-<div class="bg-surface-container-low p-4 rounded-3xl border border-outline-variant shadow-xl relative z-10 ai-glow">
-<img alt="Medical dashboard" class="rounded-2xl w-full h-auto object-cover border border-outline-variant shadow-sm" data-alt="Modern medical interface on a tablet showing health data analysis with clean blue and white aesthetic and minimalist data charts" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZ0MNvaOUjg1nHXyPRE1FwMESWhdWdW2KtBmZJXf3viCC0r1GqrcPIJSFgtr_Q5qSowRK1xx073KUUjvSJrpu7go0NWbaEgOgDgBKqN8POGWkGSYEqmUjPORegfLrsvH_cQcY7gOMD3ye-g_yB_yNVebjctQU0_28X2ukYmMpddTsM78wX7XCiCDUXOhtOo2VvpdAjWAPoOjcWx5YEWqSdGE7KlWWAAu5T3UY5qrFfyIW0mn7BNx1losFX7FA-RrfRw8O8dYqLcYg"/>
-<div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-lg border border-outline-variant flex items-center gap-4 max-w-xs">
-<div class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center text-primary">
-<span class="material-symbols-outlined" data-weight="fill">verified</span>
-</div>
-<div>
-<p class="font-label-md text-on-surface">99.8% Accuracy</p>
-<p class="font-label-sm text-on-surface-variant">Validated by clinical AI</p>
-</div>
-</div>
-</div>
-</div>
-</div>
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    
+    <!-- Text and button-->
+    <div class="z-10">
+      <span class="inline-block px-3 py-1 mb-6 rounded-full bg-secondary-container text-primary font-label-sm">END-TO-END AI PIPELINE</span>
+      <h1 class="font-h1 text-5xl md:text-6xl text-on-surface mb-6 leading-tight">
+        Automated, Fair, and <span class="text-primary">Intelligent</span> Insurance Claims
+      </h1>
+      <p class="font-body-lg text-on-surface-variant mb-10 max-w-xl">
+        ClaimGuard leverages Vision-Language Models and RAG architecture to parse medical receipts and cross-reference policy clauses instantly. Reduce manual review time by 80%.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <button onclick="window.location.href='/claim'" class="bg-primary text-white font-label-md px-8 py-4 rounded-xl shadow-lg hover:shadow-primary-container/20 transition-all cursor-pointer">
+          Start Your Claim
+        </button>
+        <button class="flex items-center justify-center gap-2 border border-outline-variant text-on-surface font-label-md px-8 py-4 rounded-xl hover:bg-surface-container transition-colors">
+          <span class="material-symbols-outlined">account_tree</span>
+          View Architecture
+        </button>
+      </div>
+    </div>
+
+    <!-- Image -->
+    <div class="relative">
+      <div class="absolute -top-12 -right-12 w-64 h-64 bg-primary-container/5 rounded-full blur-3xl"></div>
+      <div class="bg-surface-container-low p-4 rounded-3xl border border-outline-variant shadow-xl relative z-10 ai-glow">
+        <img alt="Medical dashboard" class="rounded-2xl w-full h-auto object-cover border border-outline-variant shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZ0MNvaOUjg1nHXyPRE1FwMESWhdWdW2KtBmZJXf3viCC0r1GqrcPIJSFgtr_Q5qSowRK1xx073KUUjvSJrpu7go0NWbaEgOgDgBKqN8POGWkGSYEqmUjPORegfLrsvH_cQcY7gOMD3ye-g_yB_yNVebjctQU0_28X2ukYmMpddTsM78wX7XCiCDUXOhtOo2VvpdAjWAPoOjcWx5YEWqSdGE7KlWWAAu5T3UY5qrFfyIW0mn7BNx1losFX7FA-RrfRw8O8dYqLcYg"/>
+        <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-lg border border-outline-variant flex items-center gap-4 max-w-xs">
+          <div class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center text-primary">
+            <span class="material-symbols-outlined" data-weight="fill">verified</span>
+          </div>
+          <div>
+            <p class="font-label-md text-on-surface">99.8% Accuracy</p>
+            <p class="font-label-sm text-on-surface-variant">Validated by clinical AI</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </section>
 <!-- How It Works -->
 <section class="py-24 bg-surface-bright">
@@ -186,7 +191,7 @@
 <div class="w-16 h-16 bg-surface-container rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
 <span class="material-symbols-outlined text-primary text-3xl group-hover:text-white transition-colors">neurology</span>
 </div>
-<h3 class="font-h3 mb-3 text-on-surface">2. Analyze</h3>
+<h3 class="font-h3 mb-3 text-on-surface">2. Analyse</h3>
 <p class="font-body-sm text-on-surface-variant">The ClaimGuard AI engine parses complex medical codes and cross-references your insurance policy in real-time.</p>
 </div>
 <!-- Step 3 -->
@@ -202,54 +207,62 @@
 </section>
 <!-- Key Features Section (Bento Style) -->
 <section class="py-24 bg-white">
-<div class="max-w-7xl mx-auto px-6">
-<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-<div class="max-w-xl">
-<h2 class="font-h1 text-on-surface mb-4">Enterprise-Grade Infrastructure</h2>
-<p class="font-body-md text-on-surface-variant">Security and accuracy are the core of our platform. We treat your medical data with the highest institutional standards.</p>
-</div>
-<button class="font-label-md text-primary flex items-center gap-1 hover:gap-2 transition-all">
-                        View Security Whitepaper <span class="material-symbols-outlined">arrow_forward</span>
-</button>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-12 grid-rows-2 gap-6 h-auto md:h-[600px]">
-<div class="md:col-span-8 bg-surface-container-low rounded-3xl p-10 flex flex-col justify-between border border-outline-variant relative overflow-hidden group">
-<div class="relative z-10">
-<div class="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-outline-variant mb-6">
-<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
-<span class="font-label-sm">HIPAA Compliant Encryption</span>
-</div>
-<h3 class="font-h1 mb-4">Uncompromising Security</h3>
-<p class="font-body-md text-on-surface-variant max-w-md">Your sensitive medical data is encrypted at rest and in transit using military-grade AES-256 standards. Only you control access.</p>
-</div>
-<img alt="Server room with blue lighting" class="absolute right-0 bottom-0 w-1/2 h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity" data-alt="Highly secure server room with glowing blue indicator lights on server racks, cold industrial aesthetic, symbolizing digital security" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7Nn7vovVgdsiP64EcQdzC-9zEXub60D8uZhQnL8WszfeNQS4ikfz62FMBABFkvquhpmaqX0re8tWfSEgwoB66hgYONLAGHWifITNGd4_uqY5mw2lLPW2SQZLlDcWRWbND0g7DdYLr4XVpDB-pXQD1AQbCZzn2w1wFD96gqZ1mGWc-ThlGF7ZlEBA4wooZD097Eo3PdoYbWh37KWyyZ8S0IAdjICKGovroRjnSGATjkU7t-2ObetGutCl8nW_UjCJ0oSWPvbybv30"/>
-</div>
-<div class="md:col-span-4 bg-primary rounded-3xl p-10 flex flex-col justify-center text-white border border-primary-container">
-<span class="material-symbols-outlined text-5xl mb-6">query_stats</span>
-<h3 class="font-h2 mb-4">Clinical Accuracy</h3>
-<p class="font-body-sm opacity-90 leading-relaxed">Our models are trained on over 50 million anonymized medical records, achieving a 99.8% precision rate in document parsing.</p>
-</div>
-<div class="md:col-span-4 bg-white border border-outline-variant rounded-3xl p-10 flex flex-col justify-between hover:border-primary transition-colors">
-<h3 class="font-h3">Global Policy Engine</h3>
-<p class="font-body-sm text-on-surface-variant">Instant parsing for over 450 insurance providers worldwide.</p>
-<div class="flex gap-2 mt-4 overflow-hidden">
-<div class="h-8 w-12 bg-surface-container rounded-md"></div>
-<div class="h-8 w-12 bg-surface-container rounded-md"></div>
-<div class="h-8 w-12 bg-surface-container rounded-md"></div>
-<div class="h-8 w-12 bg-surface-container rounded-md"></div>
-</div>
-</div>
-<div class="md:col-span-8 bg-secondary-container rounded-3xl p-10 flex items-center gap-8 border border-outline-variant">
-<div class="hidden sm:block w-32 h-32 bg-white rounded-2xl flex-shrink-0 shadow-sm flex items-center justify-center">
-<span class="material-symbols-outlined text-primary text-5xl">support_agent</span>
-</div>
-<div>
-<h3 class="font-h2 mb-2">AI-Human Hybrid Support</h3>
-<p class="font-body-md text-on-secondary-container">While our AI does the heavy lifting, our team of insurance experts is available 24/7 for complex claim disputes.</p>
-</div>
-</div>
-</div>
-</div>
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+      <div class="max-w-xl">
+        <h2 class="font-h1 text-slate-900 mb-4">Enterprise-Grade Infrastructure</h2>
+        <p class="font-body-md text-slate-600">Security and accuracy are the core of our platform. We treat your medical data with the highest institutional standards.</p>
+      </div>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-12 grid-rows-2 gap-6 h-auto md:h-[600px]">
+      
+      
+      <div class="md:col-span-8 bg-slate-100 rounded-3xl p-10 flex flex-col justify-between border border-slate-200 relative overflow-hidden group">
+        <div class="relative z-10">
+          <div class="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-slate-200 mb-6 shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+            <span class="font-bold text-sm text-slate-700">Powered by LangGraph & FastAPI</span>
+          </div>
+          <h3 class="text-3xl font-bold mb-4 text-slate-900">State-of-the-Art Architecture</h3>
+          <p class="text-slate-600 max-w-md leading-relaxed">Built on a Python-based asynchronous backend, our multi-agent framework ensures robust cross-validation between receipt totals and diagnosed medical treatments.</p>
+        </div>
+        
+        <img alt="Server room with blue lighting" class="absolute right-0 bottom-0 w-1/2 h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7Nn7vovVgdsiP64EcQdzC-9zEXub60D8uZhQnL8WszfeNQS4ikfz62FMBABFkvquhpmaqX0re8tWfSEgwoB66hgYONLAGHWifITNGd4_uqY5mw2lLPW2SQZLlDcWRWbND0g7DdYLr4XVpDB-pXQD1AQbCZzn2w1wFD96gqZ1mGWc-ThlGF7ZlEBA4wooZD097Eo3PdoYbWh37KWyyZ8S0IAdjICKGovroRjnSGATjkU7t-2ObetGutCl8nW_UjCJ0oSWPvbybv30"/>
+      </div>
+      
+      
+      <div class="md:col-span-4 bg-blue-700 rounded-3xl p-10 flex flex-col justify-center text-white shadow-lg">
+        <span class="material-symbols-outlined text-5xl mb-6">center_focus_strong</span>
+        <h3 class="text-2xl font-bold mb-4">High-Precision VLM</h3>
+        <p class="opacity-90 leading-relaxed text-sm">Our vision models accurately extract clinical text, ICD-10 codes, and itemized billing from complex, unstructured medical documents.</p>
+      </div>
+      
+      
+      <div class="md:col-span-4 bg-white border border-slate-200 rounded-3xl p-10 flex flex-col justify-between hover:border-blue-500 transition-colors shadow-sm">
+        <h3 class="text-xl font-bold text-slate-900">Dynamic RAG Retrieval</h3>
+        <p class="text-sm text-slate-600 mt-2 leading-relaxed">Instant policy matching using Qdrant vector search to fetch exact coverage clauses and exclusions based on payload filtering.</p>
+        <div class="flex gap-2 mt-auto pt-4 overflow-hidden">
+          <div class="h-8 w-12 bg-slate-100 rounded-md"></div>
+          <div class="h-8 w-12 bg-slate-100 rounded-md"></div>
+          <div class="h-8 w-12 bg-slate-100 rounded-md"></div>
+          <div class="h-8 w-12 bg-slate-100 rounded-md"></div>
+        </div>
+      </div>
+      
+      
+      <div class="md:col-span-8 bg-blue-50 rounded-3xl p-10 flex items-center gap-8 border border-blue-100">
+        <div class="hidden sm:flex w-32 h-32 bg-white rounded-2xl flex-shrink-0 shadow-sm items-center justify-center">
+          <span class="material-symbols-outlined text-blue-600 text-5xl">api</span>
+        </div>
+        <div>
+          <h3 class="text-2xl font-bold mb-2 text-slate-900">Fully Decoupled Frontend</h3>
+          <p class="text-slate-600 leading-relaxed">Designed with an Astro + Tailwind SPA interface, allowing seamless FormData transmission and smooth state transitions without page reloads.</p>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 </section>
 <!-- CTA Section -->
 <section class="py-24">
@@ -279,7 +292,7 @@
 <a class="text-slate-500 dark:text-slate-400 hover:underline underline-offset-4 transition-all" href="#">Help Center</a>
 </div>
 <div class="font-inter text-xs text-slate-500 dark:text-slate-400">
-                © 2024 ClaimGuard AI. All rights reserved.
+                © 2026 ClaimGuard AI. All rights reserved.
             </div>
 </div>
 </footer>
