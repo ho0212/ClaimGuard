@@ -1,43 +1,286 @@
----
-import ClaimForm from '../components/ClaimForm.astro';
----
+<!DOCTYPE html>
 
-<html lang="zh-TW">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<title>ClaimGuard AI Smart Claims</title>
-		<style>
-			body {
-				margin: 0;
-				padding: 2rem;
-				background-color: #f3f4f6;
-				min-height: 100vh;
-			}
-			.header {
-				text-align: center;
-				margin-bottom: 3rem;
-			}
-			h1 {
-				color: #111827;
-				font-size: 2.5rem;
-				margin-bottom: 0.5rem;
-			}
-			p.subtitle {
-				color: #6b7280;
-				font-size: 1.1rem;
-			}
-		</style>
-	</head>
-	<body>
-		<div class="header">
-			<h1>ClaimGuard AI</h1>
-			<p class="subtitle">Enterprise-level AI insurance claims review system</p>
-		</div>
-		
-		<main>
-			<ClaimForm />
-		</main>
-	</body>
-</html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ClaimGuard - Fast, Fair, and Intelligent Insurance Claims</title>
+<script is:inline src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#d9e3f2",
+                    "background": "#f8f9fb",
+                    "surface-tint": "#0c56d0",
+                    "on-primary-fixed": "#001848",
+                    "tertiary-container": "#006477",
+                    "on-tertiary": "#ffffff",
+                    "outline": "#737685",
+                    "surface-container-highest": "#e1e2e4",
+                    "inverse-primary": "#b2c5ff",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed-variant": "#3e4853",
+                    "surface-variant": "#e1e2e4",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed-dim": "#48d7f9",
+                    "primary-fixed": "#dae2ff",
+                    "outline-variant": "#c3c6d6",
+                    "on-background": "#191c1e",
+                    "secondary-fixed-dim": "#bdc7d6",
+                    "on-error": "#ffffff",
+                    "surface-container": "#edeef0",
+                    "on-primary-fixed-variant": "#0040a2",
+                    "surface-bright": "#f8f9fb",
+                    "on-tertiary-fixed-variant": "#004e5d",
+                    "on-surface": "#191c1e",
+                    "on-surface-variant": "#434654",
+                    "tertiary": "#004b59",
+                    "on-secondary-fixed": "#131c27",
+                    "on-tertiary-container": "#76e2ff",
+                    "secondary": "#555f6c",
+                    "inverse-surface": "#2e3132",
+                    "error-container": "#ffdad6",
+                    "on-primary": "#ffffff",
+                    "surface": "#f8f9fb",
+                    "on-tertiary-fixed": "#001f27",
+                    "primary-container": "#0052cc",
+                    "secondary-fixed": "#d9e3f2",
+                    "on-secondary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#f0f1f3",
+                    "on-primary-container": "#c4d2ff",
+                    "primary-fixed-dim": "#b2c5ff",
+                    "surface-dim": "#d9dadc",
+                    "on-secondary-container": "#5b6572",
+                    "surface-container-high": "#e7e8ea",
+                    "surface-container-low": "#f3f4f6",
+                    "tertiary-fixed": "#afecff",
+                    "primary": "#003d9b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "4px",
+                    "xl": "32px",
+                    "xs": "4px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "gutter": "24px",
+                    "md": "16px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "body-sm": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "h2": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "h1": ["Inter"],
+                    "h3": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "body-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.04em", "fontWeight": "500"}],
+                    "h2": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "600"}],
+                    "h1": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "h3": ["20px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .ai-glow {
+            box-shadow: 0 0 20px rgba(0, 82, 204, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-surface">
+<!-- TopNavBar -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm docked full-width top-0 sticky z-50">
+<nav class="flex justify-between items-center max-w-7xl mx-auto px-6 h-16">
+<a href="/" class="text-xl font-bold tracking-tighter text-blue-700 dark:text-blue-500 font-h2 cursor-pointer">ClaimGuard</a>
+<div class="hidden md:flex items-center gap-8 font-inter text-sm font-medium tracking-tight">
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200" href="/claim">Start Claim</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200" href="#">Pricing</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors duration-200" href="#">About</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-600 dark:text-slate-400 font-medium text-sm hover:text-blue-700 transition-colors">Login</button>
+<button class="bg-primary hover:bg-primary-container text-white px-5 py-2 rounded-lg font-label-md transition-all scale-95 hover:scale-100">Sign Up</button>
+</div>
+</nav>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="relative py-24 overflow-hidden bg-white">
+<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<div class="z-10">
+<span class="inline-block px-3 py-1 mb-6 rounded-full bg-secondary-container text-primary font-label-sm">AI-POWERED PRECISION</span>
+<h1 class="font-h1 text-5xl md:text-6xl text-on-surface mb-6 leading-tight">
+                        Fast, Fair, and <span class="text-primary">Intelligent</span> Insurance Claims
+                    </h1>
+<p class="font-body-lg text-on-surface-variant mb-10 max-w-xl">
+                        ClaimGuard uses advanced medical AI to analyze receipts and policy data instantly. Reduce processing time by 80% with clinician-grade accuracy.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button onclick="window.location.href='/claim'" class="bg-primary text-white font-label-md px-8 py-4 rounded-xl shadow-lg hover:shadow-primary-container/20 transition-all">
+                            Start Your Claim
+                        </button>
+<button class="flex items-center justify-center gap-2 border border-outline-variant text-on-surface font-label-md px-8 py-4 rounded-xl hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">play_circle</span>
+                            How it works
+                        </button>
+</div>
+</div>
+<div class="relative">
+<div class="absolute -top-12 -right-12 w-64 h-64 bg-primary-container/5 rounded-full blur-3xl"></div>
+<div class="bg-surface-container-low p-4 rounded-3xl border border-outline-variant shadow-xl relative z-10 ai-glow">
+<img alt="Medical dashboard" class="rounded-2xl w-full h-auto object-cover border border-outline-variant shadow-sm" data-alt="Modern medical interface on a tablet showing health data analysis with clean blue and white aesthetic and minimalist data charts" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZ0MNvaOUjg1nHXyPRE1FwMESWhdWdW2KtBmZJXf3viCC0r1GqrcPIJSFgtr_Q5qSowRK1xx073KUUjvSJrpu7go0NWbaEgOgDgBKqN8POGWkGSYEqmUjPORegfLrsvH_cQcY7gOMD3ye-g_yB_yNVebjctQU0_28X2ukYmMpddTsM78wX7XCiCDUXOhtOo2VvpdAjWAPoOjcWx5YEWqSdGE7KlWWAAu5T3UY5qrFfyIW0mn7BNx1losFX7FA-RrfRw8O8dYqLcYg"/>
+<div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-lg border border-outline-variant flex items-center gap-4 max-w-xs">
+<div class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-weight="fill">verified</span>
+</div>
+<div>
+<p class="font-label-md text-on-surface">99.8% Accuracy</p>
+<p class="font-label-sm text-on-surface-variant">Validated by clinical AI</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works -->
+<section class="py-24 bg-surface-bright">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="font-h1 text-on-surface mb-4">Streamlined Claim Process</h2>
+<p class="font-body-md text-on-surface-variant max-w-2xl mx-auto">Our three-step workflow removes the friction from medical reimbursements, ensuring you get paid faster.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Step 1 -->
+<div class="bg-white p-8 rounded-2xl border border-outline-variant hover:shadow-md transition-all group">
+<div class="w-16 h-16 bg-surface-container rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white transition-colors">upload_file</span>
+</div>
+<h3 class="font-h3 mb-3 text-on-surface">1. Upload</h3>
+<p class="font-body-sm text-on-surface-variant">Simply drag and drop your medical receipts, hospital bills, or prescription records. Our system supports all major formats.</p>
+</div>
+<!-- Step 2 -->
+<div class="bg-white p-8 rounded-2xl border border-outline-variant hover:shadow-md transition-all group">
+<div class="w-16 h-16 bg-surface-container rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white transition-colors">neurology</span>
+</div>
+<h3 class="font-h3 mb-3 text-on-surface">2. Analyze</h3>
+<p class="font-body-sm text-on-surface-variant">The ClaimGuard AI engine parses complex medical codes and cross-references your insurance policy in real-time.</p>
+</div>
+<!-- Step 3 -->
+<div class="bg-white p-8 rounded-2xl border border-outline-variant hover:shadow-md transition-all group">
+<div class="w-16 h-16 bg-surface-container rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-primary text-3xl group-hover:text-white transition-colors">receipt_long</span>
+</div>
+<h3 class="font-h3 mb-3 text-on-surface">3. Get Report</h3>
+<p class="font-body-sm text-on-surface-variant">Receive a detailed analysis of your claim status, estimated reimbursement, and an automated submission package.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Key Features Section (Bento Style) -->
+<section class="py-24 bg-white">
+<div class="max-w-7xl mx-auto px-6">
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+<div class="max-w-xl">
+<h2 class="font-h1 text-on-surface mb-4">Enterprise-Grade Infrastructure</h2>
+<p class="font-body-md text-on-surface-variant">Security and accuracy are the core of our platform. We treat your medical data with the highest institutional standards.</p>
+</div>
+<button class="font-label-md text-primary flex items-center gap-1 hover:gap-2 transition-all">
+                        View Security Whitepaper <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 grid-rows-2 gap-6 h-auto md:h-[600px]">
+<div class="md:col-span-8 bg-surface-container-low rounded-3xl p-10 flex flex-col justify-between border border-outline-variant relative overflow-hidden group">
+<div class="relative z-10">
+<div class="inline-flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-outline-variant mb-6">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span class="font-label-sm">HIPAA Compliant Encryption</span>
+</div>
+<h3 class="font-h1 mb-4">Uncompromising Security</h3>
+<p class="font-body-md text-on-surface-variant max-w-md">Your sensitive medical data is encrypted at rest and in transit using military-grade AES-256 standards. Only you control access.</p>
+</div>
+<img alt="Server room with blue lighting" class="absolute right-0 bottom-0 w-1/2 h-full object-cover opacity-20 group-hover:opacity-40 transition-opacity" data-alt="Highly secure server room with glowing blue indicator lights on server racks, cold industrial aesthetic, symbolizing digital security" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7Nn7vovVgdsiP64EcQdzC-9zEXub60D8uZhQnL8WszfeNQS4ikfz62FMBABFkvquhpmaqX0re8tWfSEgwoB66hgYONLAGHWifITNGd4_uqY5mw2lLPW2SQZLlDcWRWbND0g7DdYLr4XVpDB-pXQD1AQbCZzn2w1wFD96gqZ1mGWc-ThlGF7ZlEBA4wooZD097Eo3PdoYbWh37KWyyZ8S0IAdjICKGovroRjnSGATjkU7t-2ObetGutCl8nW_UjCJ0oSWPvbybv30"/>
+</div>
+<div class="md:col-span-4 bg-primary rounded-3xl p-10 flex flex-col justify-center text-white border border-primary-container">
+<span class="material-symbols-outlined text-5xl mb-6">query_stats</span>
+<h3 class="font-h2 mb-4">Clinical Accuracy</h3>
+<p class="font-body-sm opacity-90 leading-relaxed">Our models are trained on over 50 million anonymized medical records, achieving a 99.8% precision rate in document parsing.</p>
+</div>
+<div class="md:col-span-4 bg-white border border-outline-variant rounded-3xl p-10 flex flex-col justify-between hover:border-primary transition-colors">
+<h3 class="font-h3">Global Policy Engine</h3>
+<p class="font-body-sm text-on-surface-variant">Instant parsing for over 450 insurance providers worldwide.</p>
+<div class="flex gap-2 mt-4 overflow-hidden">
+<div class="h-8 w-12 bg-surface-container rounded-md"></div>
+<div class="h-8 w-12 bg-surface-container rounded-md"></div>
+<div class="h-8 w-12 bg-surface-container rounded-md"></div>
+<div class="h-8 w-12 bg-surface-container rounded-md"></div>
+</div>
+</div>
+<div class="md:col-span-8 bg-secondary-container rounded-3xl p-10 flex items-center gap-8 border border-outline-variant">
+<div class="hidden sm:block w-32 h-32 bg-white rounded-2xl flex-shrink-0 shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-5xl">support_agent</span>
+</div>
+<div>
+<h3 class="font-h2 mb-2">AI-Human Hybrid Support</h3>
+<p class="font-body-md text-on-secondary-container">While our AI does the heavy lifting, our team of insurance experts is available 24/7 for complex claim disputes.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-24">
+<div class="max-w-7xl mx-auto px-6">
+<div class="bg-primary-container rounded-[2.5rem] p-12 md:p-24 text-center text-white relative overflow-hidden">
+<div class="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -mr-48 -mt-48 blur-3xl"></div>
+<div class="relative z-10">
+<h2 class="font-h1 text-4xl md:text-5xl mb-6">Ready to simplify your claims?</h2>
+<p class="font-body-lg mb-10 opacity-90 max-w-2xl mx-auto">Join 15,000+ users who have already reclaimed over $24M in medical expenses using ClaimGuard AI.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button onclick="window.location.href='/claim'" class="bg-white text-primary font-label-md px-10 py-5 rounded-2xl shadow-xl hover:bg-surface-bright transition-colors">Start Claim Now</button>
+<button class="bg-transparent border border-white/30 text-white font-label-md px-10 py-5 rounded-2xl hover:bg-white/10 transition-colors">Contact Sales</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 w-full py-12 flat no shadows">
+<div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="text-lg font-bold text-slate-800 dark:text-slate-200">ClaimGuard</div>
+<div class="flex flex-wrap justify-center gap-8 font-inter text-xs text-slate-500 dark:text-slate-400">
+<a class="text-slate-500 dark:text-slate-400 hover:underline underline-offset-4 transition-all" href="#">Contact Us</a>
+<a class="text-slate-500 dark:text-slate-400 hover:underline underline-offset-4 transition-all" href="#">Privacy Policy</a>
+<a class="text-slate-500 dark:text-slate-400 hover:underline underline-offset-4 transition-all" href="#">Terms of Service</a>
+<a class="text-slate-500 dark:text-slate-400 hover:underline underline-offset-4 transition-all" href="#">Help Center</a>
+</div>
+<div class="font-inter text-xs text-slate-500 dark:text-slate-400">
+                © 2024 ClaimGuard AI. All rights reserved.
+            </div>
+</div>
+</footer>
+</body></html>
