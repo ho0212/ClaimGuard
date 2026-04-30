@@ -5,7 +5,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>ClaimGuard AI - Enterprise Claim Review</title>
   
-  <!-- 🌟 關鍵修正：加上 is:inline 強制 Astro 載入 Tailwind CDN 與設定檔 -->
+  <!-- Tailwind CSS-->
   <script is:inline src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script is:inline src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -68,7 +68,7 @@
   </nav>
 
   <!-- ==========================================
-       STATE 1: 提交表單 (Form View) 
+       STATE 1: Form View (Initial State)
        ========================================== -->
   <main id="view-form" class="flex-grow max-w-3xl mx-auto py-12 px-6 w-full transition-opacity duration-300">
     <div class="mb-8">
@@ -148,7 +148,7 @@
   </main>
 
   <!-- ==========================================
-       STATE 2: AI 分析中 (Loading View) 
+       STATE 2: AI Analysis (Loading View) 
        ========================================== -->
   <main id="view-loading" class="hidden-state flex-grow flex items-center justify-center px-6 py-12 transition-opacity duration-300">
     <div class="max-w-4xl w-full">
@@ -193,7 +193,7 @@
   </main>
 
   <!-- ==========================================
-       STATE 3: 分析結果 (Report View) 
+       STATE 3: Analysis Report (Report View) 
        ========================================== -->
   <main id="view-report" class="hidden-state flex-grow max-w-5xl mx-auto w-full px-6 py-12 transition-opacity duration-300">
     <div class="flex flex-col md:flex-row justify-between mb-8 gap-4">
@@ -269,7 +269,7 @@
   </footer>
 
   <!-- ==========================================
-       JAVASCRIPT 邏輯區
+       JAVASCRIPT 
        ========================================== -->
   <script is:inline>
     const form = document.getElementById('upload-form');
@@ -279,17 +279,17 @@
     const viewLoading = document.getElementById('view-loading');
     const viewReport = document.getElementById('view-report');
 
-    // 🌟 新增：監聽檔案選擇事件，動態顯示檔名
+    // Listen for file selection and display chosen files
     const fileListDisplay = document.getElementById('file-list-display');
     
     fileInput.addEventListener('change', (e) => {
-      // 每次選擇新檔案時，先清空舊的清單
+      // Clear previous file list display
       fileListDisplay.innerHTML = ''; 
       
       const files = e.target.files;
       if (files.length > 0) {
         Array.from(files).forEach(file => {
-          // 建立一個帶有圖示的精美小標籤
+          
           const fileBadge = document.createElement('div');
           fileBadge.className = 'flex items-center justify-center gap-2 bg-blue-50 text-blue-700 px-3 py-2 rounded-lg text-sm font-medium border border-blue-100 mx-auto w-max max-w-full';
           fileBadge.innerHTML = `
