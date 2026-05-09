@@ -9,3 +9,4 @@
     - FastAPI Rate Limiting (slowapi)
 4. Optimise frontend content
 5. Log in and Sign up
+6. Introduce Llama and fine-tuning
