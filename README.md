@@ -1,7 +1,7 @@
 # ClaimGuard
 
 
-1. Optimise node 2
+1. Optimise node 2 (including fraud detection)
 2. Supplement Vectorbase
 3. Cost Control
     - Set Budget Cap (Azure Portal)
